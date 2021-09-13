@@ -4,9 +4,8 @@
 
 void test(char *inputFileContent, char *commandList[], char *envp[]) {
 
-    int     fd_output;
-    int     fd_error;
-    FILE    *fs_return;
+    int fd_output;
+    int fd_error;
 
     pid_t pid = fork();
 
@@ -37,8 +36,14 @@ void test(char *inputFileContent, char *commandList[], char *envp[]) {
 
     else {
 
-        if ((fs_return = fopen("./tmp/return.tmp", "w")) == NULL) {
+        int wstatus;
 
+        wait(&wstatus);
+        if (WIFEXITED(wstatus) == false) {
+            ferror("wait", EAGAIN);
+        } else {
+            
+            FILE    *fs_log;
         }
     }
 }
