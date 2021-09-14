@@ -71,7 +71,7 @@ void test(char *inputFileContent, char *commandList[], char *envp[]) {
         ferror("wait", EAGAIN);
     }
 
-    pid_t pid = fork();
+    pid = fork();
 
     if (pid == (pid_t)-1) {
         ferror("fork", errno);
