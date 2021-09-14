@@ -19,4 +19,6 @@
 # define ARGS(...)                      (char *[]){ __VA_ARGS__, NULL }
 # define ferror(funName, errNum)        fprintf(stderr, "%s: %s failed: %s\n", PROGRAM_NAME, funName, strerror(errNum)); exit(1);
 
+void test(char *inputFileContent, char *commandList[], char *envp[]);
+
 #endif // TEST_H
