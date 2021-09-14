@@ -1,7 +1,7 @@
 #include "main.h"
 
-int main(int ac, char *av[], char *envp[]) {
+int main(void) {
 
-    test("Hello World!", (char *[]){ "grep Hello", "wc -l", NULL });
+    test("Hello World!\n", ARGS("grep Hello", "wc -l"), DEFAULT_ENV);
     return (0);
 }
