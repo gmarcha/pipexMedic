@@ -1,13 +1,18 @@
 #ifndef MAIN_H
 # define MAIN_H
 
+# define _GNU_SOURCE
+
 # include "test.h"
 # include "color.h"
 
-// 1. Mandatory
-// 2. Bonus
+volatile sig_atomic_t testDone;
 
-// a. Output
-// b. Return value
+///  ///////////////////////////////  ///
+///  ///          UTILS          ///  ///
+///  ///////////////////////////////  ///
+
+size_t strslen(char *const *strs);
+void setSignal(void);
 
 #endif // MAIN_H
