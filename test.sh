@@ -9,17 +9,13 @@ YELLOW="\033[38;2;255;176;0m"
 PURPLE="\033[38;2;255;105;180m"
 RESET="\033[0m"
 
-comp() {
-	printf "$RED"; diff -u $1 $2; printf "$RESET"
-	if [ $? -eq 0 ]; then
-		printf "$GREEN""OK !$RESET\n"
-	fi
-}
+INPUT=(basic multiple_command redirection mandatory m bonus b)
+ARG1=""
+ARG2="0"
 
-echo -n "hello\nhello world\nhell\n" > test1
-echo -n "hello\nhello world\nhell\n" > user1
+mkdir -p tmp/
 
-printf "$YELLOW$S1\n\n"
+printf "$PURPLE$S1\n\n"
 echo "██████╗ ██╗██████╗ ███████╗██╗  ██╗    ███╗   ███╗███████╗██████╗ ██╗ ██████╗"
 echo "██╔══██╗██║██╔══██╗██╔════╝╚██╗██╔╝    ████╗ ████║██╔════╝██╔══██╗██║██╔════╝"
 echo "██████╔╝██║██████╔╝█████╗   ╚███╔╝     ██╔████╔██║█████╗  ██║  ██║██║██║     "
@@ -27,40 +23,50 @@ echo "██╔═══╝ ██║██╔═══╝ ██╔══╝   
 echo "██║     ██║██║     ███████╗██╔╝ ██╗    ██║ ╚═╝ ██║███████╗██████╔╝██║╚██████╗"
 echo "╚═╝     ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝    ╚═╝     ╚═╝╚══════╝╚═════╝ ╚═╝ ╚═════╝"
 printf "\n$S1$RESET\n"
-printf "$BLUE"; make -C ../ all; printf "$RESET"
 
-printf "$YELLOW$S1$RESET\n"
-printf "$PURPLE""test: < infile grep hello | awk '{count++} END {print count}' > outfile$RESET\n"
-printf "$PURPLE$S2$RESET\n"
-< test1 grep hello | awk '{count++} END {print count}' > test2 2> test2
-../pipex user1 "grep hello" "awk '{count++} END {print count}'" user2 2> user2
-comp test2 user2
-rm -rf test2 user2
+if [[ -z $1 ]]; then
+    echo "pipexMedic: launch with basic, multiple_command, or redirection,"
+    echo "            like this `bash test.sh basics`"
+    echo "            there are other aliases, as mandatory/m, or bonus/b"
+	echo "            you can launch a specific test with a second argument"
+    exit 1
+fi
 
-printf "$YELLOW$S1$RESET\n"
-printf "$PURPLE""test: < infile grep hello | awk \"{count++} END {print count}\" > outfile$RESET\n"
-printf "$PURPLE$S2$RESET\n"
-< test1 grep hello | awk "{count++} END {print count}" > test2 2> test2
-../pipex user1 "grep hello" "awk \"{count++} END {print count}\"" user2 2> user2
-comp test2 user2
-rm -rf test2 user2
+if ! [[ -z $1 ]]; then
+    for IN in ${INPUT[@]}; do
+        if [[ $1 == $IN ]]; then
+            ARG1=$1
+        fi
+    done
+    if [[ -z $ARG1 ]]; then
+        echo "Invalid first argument, launch script to know usage."; rm -rf tmp/; exit 1
+    fi
+fi
 
-printf "$YELLOW$S1$RESET\n"
-printf "$PURPLE""test: < infile grep hello | awk '\"{count++} END {print count}\"' > outfile$RESET\n"
-printf "$PURPLE$S2$RESET\n"
-< test1 grep hello | awk '"{count++} END {print count}"' > test2 2> test2
-../pipex user1 "grep hello" "awk '\"{count++} END {print count}\"'" user2 2> user2
-comp test2 user2
-rm -rf test2 user2
+if ! [[ -z $2 ]]; then
+    re='^[0-9]+$'
+    if ! [[ $2 =~ $re ]] ; then
+        echo "Invalid second argument, launch script to know usage."; rm -rf tmp/; exit 1
+    fi
+    ARG2=$2
+fi
 
-printf "$YELLOW$S1$RESET\n"
-printf "$PURPLE""test: < infile grep hello | awk \"'{count++} END {print count}'\" > outfile$RESET\n"
-printf "$PURPLE$S2$RESET\n"
-< test1 grep hello | awk "'{count++} END {print count}'" > test2 2> test2
-../pipex user1 "grep hello" "awk \"'{count++} END {print count}'\"" user2 2> user2
-comp test2 user2
-rm -rf test2 user2
+printf "$BLUE"
+make -C ../ all
+if [[ $? -ne 0 ]]; then
+	rm -rf tmp/; exit 1
+fi
+printf "$RESET"
+printf "$PURPLE$S1$RESET\n"
 
-rm -rf test1 user1
+clang -Wall -Wextra -Werror -fsanitize=address -I ./inc src/{main,test,runTest,utils}.c -o tester
+if [[ $? -ne 0 ]]; then
+	rm -rf tmp/; exit 1
+else
+	printf "$YELLOW""Tester ready!$RESET\n"
+fi
+printf "$PURPLE$S1$RESET\n"
 
-printf "\033[38;2;255;176;0m\n%80s\n%80s\n%80s\033[0m\n" "Test finished." "@2021, Pipex Medic." "https://github.com/gmarcha"
+./tester $ARG1 $ARG2
+
+rm -rf tmp/ tester
