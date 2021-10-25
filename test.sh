@@ -26,7 +26,7 @@ printf "\n$S1$RESET\n"
 
 if [[ -z $1 ]]; then
     echo "pipexMedic: launch with basic, multiple_command, or redirection,"
-    echo "            like this `bash test.sh basics`"
+    echo "            like this bash test.sh basics"
     echo "            there are other aliases, as mandatory/m, or bonus/b"
 	echo "            you can launch a specific test with a second argument"
     exit 1
