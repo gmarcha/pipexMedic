@@ -9,7 +9,7 @@ YELLOW="\033[38;2;255;176;0m"
 PURPLE="\033[38;2;255;105;180m"
 RESET="\033[0m"
 
-INPUT=(basic multiple_command redirection mandatory m bonus b)
+INPUT=(basic error concurrency multiple_command mandatory m bonus b all a)
 ARG1=""
 ARG2="0"
 
@@ -25,9 +25,9 @@ echo "╚═╝     ╚═╝╚═╝     ╚══════╝╚═╝  �
 printf "\n$S1$RESET\n"
 
 if [[ -z $1 ]]; then
-    echo "pipexMedic: launch with basic, multiple_command, or redirection,"
+    echo "pipexMedic: launch with basic, error, concurrency, or multiple_command,"
     echo "            like this bash test.sh basics"
-    echo "            there are other aliases, as mandatory/m, or bonus/b"
+    echo "            there are other aliases, as mandatory/m, bonus/b, all/a"
 	echo "            you can launch a specific test with a second argument"
     exit 1
 fi
