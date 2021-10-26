@@ -107,6 +107,8 @@ void test(const char *testSubset, const size_t testIndex, char *const commandLis
     const int bashStatus = getExitStatus();
     const time_t bashTime = time(NULL) - bashStartTime;
 
+    system("sed -i 's/bash/pipex/g' tmp/errorBash.tmp");
+
     bashCommand[strlen(bashCommand) - 3 - 1] = '\0';
 
     FILE* fsOutFilePipex = fopen("./outputPipex", "r");
