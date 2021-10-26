@@ -8,4 +8,4 @@ Features: output files, standard streams, exit codes, parallelism, and file perm
 - You can check the complete error listing in the log file: `cat tester.log | less`, or browse it in your favorite IDE.
 - Error tests are very punitive. There is no need to pass them to validate the project.
 
-![output](/assets/output2.png)
+![output](/assets/output3.png)
