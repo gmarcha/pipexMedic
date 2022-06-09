@@ -8,7 +8,7 @@
 # include "test.h"
 # include "color.h"
 
-volatile sig_atomic_t testDone;
+extern volatile sig_atomic_t testDone;
 
 ///  ///////////////////////////////  ///
 ///  ///          UTILS          ///  ///
