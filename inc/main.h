@@ -1,7 +1,9 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-# define _GNU_SOURCE
+# ifdef __APPLE__
+#  define _GNU_SOURCE
+# endif
 
 # include "test.h"
 # include "color.h"
