@@ -1,4 +1,7 @@
 # Pipex Medic
+
+Warning: Tester is designed to run on Linux environment only!
+
 A complete C program to test Pipex, a 42 project to learn fork, redirection, and pipe in C programming. \
 Features: output files, standard streams, exit codes, parallelism, and file permissions comparison.
 
